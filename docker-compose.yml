@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  service1:
+    build: ./service1
+    ports:
+      - "8001:8001"
+    volumes: 
+      - ./service1:/app
+    networks:
+      - network-reto2
+      
+  service2:
+    build: ./service2
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./service2:/app
+    networks:
+      - network-reto2
+
+  api-getway:
+    build: ./api-getway
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api-getway:/app
+    networks:
+      - network-reto2
+    depends_on:
+      - service1
+      - service2
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: juan123
+      RABBITMQ_DEFAULT_PASS: juan123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - network-reto2
+
+networks:
+  network-reto2:

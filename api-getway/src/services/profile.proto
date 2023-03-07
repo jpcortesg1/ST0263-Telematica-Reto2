@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package file_service;
+
+service FileService {
+  rpc ListFiles (Folder) returns (FileList) {}
+}
+
+message Folder {
+  string path = 1;
+}
+
+message File {
+  string name = 1;
+}
+
+message FileList {
+  repeated File files = 1;
+}
+``
